@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   WrapperWidget,
@@ -10,81 +10,71 @@ import { Statistics } from './Statistics';
 import { Box } from './Box';
 import { theme } from '../theme';
 
-export class Widget extends Component {
-  static defaultPropTypes = {
-    initialGood: PropTypes.number.isRequired,
-    initialNeutral: PropTypes.number.isRequired,
-    initialBad: PropTypes.number.isRequired,
-  };
+export function Widget({ initialGood, initialNeutral, initialBad }) {
+  const [good, setGood] = useState(initialGood);
+  const [neutral, setNeutral] = useState(initialNeutral);
+  const [bad, setBad] = useState(initialBad);
 
-  state = {
-    good: this.props.initialGood,
-    neutral: this.props.initialNeutral,
-    bad: this.props.initialBad,
-  };
+  const changeState = state => state + 1;
 
-  onLeaveFeedback = evt => {
-    const nameOption = evt.currentTarget.name;
-    this.setState(prevState => {
-      return { [nameOption]: prevState[nameOption] + 1 };
-    });
-  };
-
-  countTotalFeedback = () => {
-    const { good, neutral, bad } = this.state;
-    return (this.total = good + neutral + bad);
-  };
-
-  countPositiveFeedbackPercentage = () => {
-    const { good, neutral, bad } = this.state;
-    this.positivePercentage = Math.round((good / (good + neutral + bad)) * 100);
-
-    if (this.positivePercentage) {
-      return this.positivePercentage;
-    } else {
-      return 0;
+  const onLeaveFeedback = evt => {
+    switch (evt.target.name) {
+      case 'good':
+        setGood(changeState);
+        break;
+      case 'neutral':
+        setNeutral(changeState);
+        break;
+      case 'bad':
+        setBad(changeState);
+        break;
+      default:
+        return;
     }
   };
 
-  render() {
-    const { good, neutral, bad } = this.state;
-    return (
-      <WrapperWidget>
-        <Box
-          fontSize={theme.typography.heading}
-          pt={4}
-          pb={3}
-          m={0}
-          color={theme.colors.heading}
-          as="h2"
-        >
-          Please leave feedback
-        </Box>
-        <WrapperButton>
-          <FeedbackOptions
-            options={Object.keys(this.state)}
-            onLeaveFeedback={this.onLeaveFeedback}
-          />
-        </WrapperButton>
-        <Box
-          fontSize={theme.typography.heading}
-          m={0}
-          mb={3}
-          color={theme.colors.heading}
-          as="h2"
-        >
-          Statistics
-        </Box>
-        <WrapperStatistics>
-          <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
-            total={this.countTotalFeedback()}
-            positivePercentage={this.countPositiveFeedbackPercentage()}
-          />
-        </WrapperStatistics>
-      </WrapperWidget>
-    );
-  }
+  return (
+    <WrapperWidget>
+      <Box
+        fontSize={theme.typography.heading}
+        pt={4}
+        pb={3}
+        m={0}
+        color={theme.colors.heading}
+        as="h2"
+      >
+        Please leave feedback
+      </Box>
+      <WrapperButton>
+        <FeedbackOptions
+          options={Object.keys({ good, neutral, bad })}
+          onLeaveFeedback={onLeaveFeedback}
+        />
+      </WrapperButton>
+      <Box
+        fontSize={theme.typography.heading}
+        m={0}
+        mb={3}
+        color={theme.colors.heading}
+        as="h2"
+      >
+        Statistics
+      </Box>
+      <WrapperStatistics>
+        <Statistics
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={good + neutral + bad}
+          positivePercentage={Math.round((good / (good + neutral + bad)) * 100)}
+        />
+      </WrapperStatistics>
+    </WrapperWidget>
+  );
 }
+
+Widget.propTypes = {
+  initialGood: PropTypes.number.isRequired,
+  initialNeutral: PropTypes.number.isRequired,
+  initialBad: PropTypes.number.isRequired,
+};

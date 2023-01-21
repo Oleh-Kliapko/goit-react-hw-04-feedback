@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Item } from './Statistics.styled';
 import { Notification } from './Notification';
@@ -26,6 +25,9 @@ export const Statistics = ({
 };
 
 Statistics.propTypes = {
-  total: PropTypes.number,
-  onLeaveFeedback: PropTypes.number,
+  good: PropTypes.number.isRequired,
+  neutral: PropTypes.number.isRequired,
+  bad: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  positivePercentage: PropTypes.number.isRequired,
 };
