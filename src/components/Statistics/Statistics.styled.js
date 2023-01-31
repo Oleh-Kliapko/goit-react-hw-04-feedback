@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { theme } from '../theme';
+import { theme } from '../../utils/theme';
 
 export const Item = styled.p`
   font-size: ${theme.typography.text};

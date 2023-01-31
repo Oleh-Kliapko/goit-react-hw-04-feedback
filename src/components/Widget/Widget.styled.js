@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { theme } from '../theme';
+import { theme } from '../../utils/theme';
 
 export const WrapperWidget = styled.section`
   display: flex;

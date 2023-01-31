@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Item } from './Statistics.styled';
-import { Notification } from './Notification';
+import { Notification } from '../../utils/Notification';
 
 export const Statistics = ({
   good,

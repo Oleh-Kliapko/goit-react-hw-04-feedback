@@ -5,10 +5,10 @@ import {
   WrapperButton,
   WrapperStatistics,
 } from './Widget.styled';
-import { FeedbackOptions } from './FeedbackOptions';
-import { Statistics } from './Statistics';
-import { Box } from './Box';
-import { theme } from '../theme';
+import { FeedbackOptions } from '../FeedbackOptions';
+import { Statistics } from '../Statistics';
+import { Box } from '../../utils/Box';
+import { theme } from '../../utils/theme';
 
 export function Widget({ initialGood, initialNeutral, initialBad }) {
   const [good, setGood] = useState(initialGood);
